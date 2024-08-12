@@ -25,4 +25,6 @@ Download an extension for Go in your IDE.
 
 Terminal ->Open the Project Folder -> Type (go mod init) -> go.mod will be created-> Create a  main.go file (main indicating a standalone Program)
 
+When importing "github.com/gorilla/mux" in your main.go, Type "go mod tidy" in your Terminal. A new go.sum (config. file) will be created.
+
 To Run: go run main.go
