@@ -8,7 +8,7 @@ The Merkle Tree is a kind of a LinkedList which holds PreviousHash|Data|TimeStam
 
 The Hashing Algorithm used by the Blockchain is SHA-256, which will be done on the user data to hash it.
 
-Code is written by imagining a simple features of E-commerce like an Order of a customer on any Products which has its own ID,Name,Price.
+
 
 It is shown by creating an endpoints like getBlockchain, newOrder, WriteBlock.
 
