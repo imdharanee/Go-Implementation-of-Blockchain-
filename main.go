@@ -21,15 +21,7 @@ type Block struct {
 	PrevHash string
 	Hash     string
 }
-type OrderCheckout struct {
-	OrderId string `json:"orderid"`
-	User    string `json:"user"`
-}
-type Order struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Price int    `json:"price"`
-}
+
 type Blockchain struct {
 	blocks []*Block
 }
@@ -94,30 +86,7 @@ func writeBlock(w http.ResponseWriter, r *http.Request) {
 	BlockChain.AddBlock(checkouttime)
 }
 
-func newOrder(w http.ResponseWriter, r *http.Request) {
-	var order Order
 
-	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Order cant be created", err)
-		w.Write([]byte("Order cant be created"))
-		return
-	}
-	h := md5.New()
-	io.WriteString(h, order.Name)
-	order.ID = fmt.Sprintf("%x", h.Sum((nil)))
-	res, err := json.MarshalIndent(order, "", "")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Printf("Could not Marshal the request :%v", err)
-		w.Write([]byte("Could not Save the Order"))
-		return
-
-	}
-	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
-}
 func getBlockchain(w http.ResponseWriter, r *http.Request) {
 	jb, err := json.MarshalIndent(BlockChain.blocks, "", " ")
 	if err != nil {
@@ -133,7 +102,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", getBlockchain).Methods("GET")
 	r.HandleFunc("/", writeBlock).Methods("POST")
-	r.HandleFunc("/new", newOrder).Methods("POST")
+	
 	log.Println("Listening on port 3000")
 	log.Fatal(http.ListenAndServe(":3000", r))
 	go func() {
